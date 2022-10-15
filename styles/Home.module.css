@@ -1,3 +1,5 @@
+@import url("https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@300;600;800&display=swap");
+
 .container {
   padding: 0 2rem;
 }
@@ -10,6 +12,31 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
+}
+
+.header {
+  display: flex;
+  position: fixed;
+  border-bottom: 1px solid #eaeaea;
+  left: 0;
+  right: 0;
+  height: 50px;
+  align-items: center;
+  z-index: 300;
+  background-color: white;
+}
+
+.header div {
+  font-weight: 800;
+  position: relative;
+  left: 50px;
+}
+
+.bodyContainer {
+  position: relative;
+  top: 80px;
+  left: 20px;
+  z-index: 100;
 }
 
 .footer {
