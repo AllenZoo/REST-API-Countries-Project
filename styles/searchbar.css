@@ -8,6 +8,7 @@
   height: 40px;
   padding: 0px 10px 0px 20px;
   column-gap: 18px;
+  background-color: white;
 }
 
 .search-bar-container input[type="text"] {

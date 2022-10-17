@@ -42,31 +42,32 @@ const Home: NextPage<IndexPageProps> = ({ data }) => {
                 population={data.population}
                 region={data.region}
                 capital={data.capital}
+                flag={data.flag}
               />
             );
           })}
         </div>
-
-        <CountryDisplay
+        {/* <CountryDisplay
           name={"Germany"}
           population={81770900}
           region={"Europe"}
           capital={"Berlin"}
-        />
+          flag={"https://flagcdn.com/de.svg"}
+        /> */}
       </div>
     </div>
   );
 };
 
 export const getServerSideProps: GetServerSideProps = async () => {
-  console.log("fetching data");
+  // console.log("fetching data");
   const res = await fetch(
     "https://restcountries.com/v2/all?fields=name,capital,population,region,flag"
   );
   // const res = await fetch("https://picsum.photos/v2/list?page=2&limit=100");
   const data = await res.json();
-  console.log("printing data!");
-  console.log(data);
+  // console.log("printing data!");
+  // console.log(data);
 
   // Pass data to the page via props
   return {
