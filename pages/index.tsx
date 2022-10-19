@@ -55,14 +55,6 @@ const Home: NextPage<IndexPageProps> = ({ data }) => {
             );
           })}
         </div>
-
-        <CountryDisplay
-          name={"Germany"}
-          population={81770900}
-          region={"Europe"}
-          capital={"Berlin"}
-          flag={data[0].flags["svg"]}
-        />
       </div>
     </div>
   );
