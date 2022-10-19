@@ -1,5 +1,6 @@
 import type { GetServerSideProps, NextPage } from "next";
 import Head from "next/head";
+import { useState } from "react";
 import CountryDisplay from "../src/country-display";
 import SearchBar from "../src/searchBar";
 import styles from "../styles/Home.module.css";
@@ -9,15 +10,22 @@ interface IndexPageProps {
     [x: string]: any;
     name: string;
     capital: string;
-    flag: string;
+    flags: [];
     population: number;
     region: string;
     independent: boolean;
+    currencies: [];
+    languages: [];
   };
 }
 
+interface SelectedCountry {
+  name: string;
+}
+
 const Home: NextPage<IndexPageProps> = ({ data }) => {
-  console.log(data);
+  const [curData, setCurData] = useState<SelectedCountry>({ name: "" });
+
   return (
     <div className={styles.container}>
       <Head>
@@ -33,27 +41,28 @@ const Home: NextPage<IndexPageProps> = ({ data }) => {
       <div className={styles.bodyContainer}>
         <SearchBar></SearchBar>
 
-        <div className="country-display-container">
+        <div className={styles.countryDisplayContainer}>
           {data.map((data: any) => {
             return (
               <CountryDisplay
-                key={data.name}
-                name={data.name}
+                key={data.name["common"]}
+                name={data.name["common"]}
                 population={data.population}
                 region={data.region}
                 capital={data.capital}
-                flag={data.flag}
+                flag={data.flags["svg"]}
               />
             );
           })}
         </div>
-        {/* <CountryDisplay
+
+        <CountryDisplay
           name={"Germany"}
           population={81770900}
           region={"Europe"}
           capital={"Berlin"}
-          flag={"https://flagcdn.com/de.svg"}
-        /> */}
+          flag={data[0].flags["svg"]}
+        />
       </div>
     </div>
   );
@@ -62,7 +71,7 @@ const Home: NextPage<IndexPageProps> = ({ data }) => {
 export const getServerSideProps: GetServerSideProps = async () => {
   // console.log("fetching data");
   const res = await fetch(
-    "https://restcountries.com/v2/all?fields=name,capital,population,region,flag"
+    "https://restcountries.com/v3.1/all?fields=name,capital,population,region,subregion,flags,independent,currencies,languages,borders"
   );
   // const res = await fetch("https://picsum.photos/v2/list?page=2&limit=100");
   const data = await res.json();
