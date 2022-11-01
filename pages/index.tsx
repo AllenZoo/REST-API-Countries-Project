@@ -1,6 +1,6 @@
 import type { GetServerSideProps, NextPage } from "next";
 import Head from "next/head";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import CountryDisplay from "../src/country-display";
 import SearchBar from "../src/searchBar";
 import styles from "../styles/Home.module.css";
@@ -26,6 +26,23 @@ interface SelectedCountry {
 const Home: NextPage<IndexPageProps> = ({ data }) => {
   const [curData, setCurData] = useState<SelectedCountry>({ name: "" });
 
+  const [displayData, setDisplayData] = useState(data);
+  const [searchTerm, setSearchTerm] = useState("");
+
+  function filterData() {
+    const filteredData = data.filter((country: any) => {
+      return country.name["common"]
+        .toLowerCase()
+        .includes(searchTerm.toLowerCase());
+    });
+    setDisplayData(filteredData);
+  }
+
+  useEffect(() => {
+    //console.log("New search term in index " + searchTerm);
+    filterData();
+  }, [searchTerm]);
+
   return (
     <div className={styles.container}>
       <Head>
@@ -39,10 +56,10 @@ const Home: NextPage<IndexPageProps> = ({ data }) => {
       </header>
 
       <div className={styles.bodyContainer}>
-        <SearchBar></SearchBar>
+        <SearchBar setSearchTerm={setSearchTerm}></SearchBar>
 
         <div className={styles.countryDisplayContainer}>
-          {data.map((data: any) => {
+          {displayData.map((data: any) => {
             return (
               <CountryDisplay
                 key={data.name["common"]}
